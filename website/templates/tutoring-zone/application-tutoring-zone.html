@@ -1,0 +1,161 @@
+{% extends 'base-tutoring-zone.html' %}
+
+{% block navbar %}
+{% include 'tutoring-zone/nav-no-search.html' %}
+{% endblock navbar %}
+{% load static %}
+{% block content %}
+<main class="auth layout">
+  <div class="container">
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <h3 id="form-title">
+            {% if user_type == 'teacher' %}Rejestracja Korepetytora{% else %}Rejestracja Ucznia{% endif %}
+          </h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <h2 class="auth__tagline" id="form-tagline">
+          Utwórz konto {% if user_type == 'teacher' %}korepetytora{% else %}ucznia{% endif %}, aby móc w pełni korzystać ze <i>Strefy Korepetycji</i>
+        </h2>
+
+        <form class="form" action="" method="POST">
+          <label>Wybierz rolę</label>
+          {% csrf_token %}
+
+          <div class="form__group role-selection">
+            <input type="hidden" name="role" id="role-input" value="{% if user_type == 'teacher' %}teacher{% else %}student{% endif %}">
+            <button type="button" class="role-btn {% if user_type == 'student' %}selected{% endif %}" data-role="student" onclick="selectRole(this)">Uczeń</button>
+            <button type="button" class="role-btn {% if user_type == 'teacher' %}selected{% endif %}" data-role="teacher" onclick="selectRole(this)">Korepetytor</button>
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+              <div class="form__error">{{ form.first_name.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+              <div class="form__error">{{ form.last_name.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+              <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+              {{ form.username }}
+              <script>
+                  document.getElementById("{{ form.username.id_for_label }}").setAttribute("maxlength", "10");
+              </script>
+              {% if form.username.errors %}
+                <div class="form__error">{{ form.username.errors }}</div>
+              {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="form__error">{{ form.email.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+              <div class="form__error">{{ form.phone_number.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.subject.id_for_label }}">
+              Wybierz przedmiot, z którego chcesz {% if user_type == 'student' %}otrzymywać korepetycje{% else %}udzielać korepetycji{% endif %}
+            </label>
+            {{ form.subject }}
+            {% if form.subject.errors %}
+              <div class="form__error">{{ form.subject.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.level.id_for_label }}">{{ form.level.label }}</label>
+            {{ form.level }}
+            {% if form.level.errors %}
+              <div class="form__error">{{ form.level.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.referral_code_input.id_for_label }}">{{ form.referral_code_input.label }}</label>
+            {{ form.referral_code_input }}
+            {% if form.referral_code_input.errors %}
+              <div class="form__error">{{ form.referral_code_input.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+            <div class="password-container">
+              {{ form.password1 }}
+              {% if form.password1.errors %}
+                <div class="form__error">{{ form.password1.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+            <div class="password-container">
+              {{ form.password2 }}
+              {% if form.password2.errors %}
+                <div class="form__error">{{ form.password2.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form__group">
+              <label for="{{ form.terms_and_privacy.id_for_label }}">
+                  {{ form.terms_and_privacy }}
+                  <span class="checkmark"></span> Akceptuję
+                  <a href="{% static 'files/regulamin.pdf' %}" target="_blank">Regulamin</a> oraz
+                  <a href="{% static 'files/regulamin.pdf' %}" target="_blank">Politykę Prywatności</a> SchoolWeb.pl
+              </label>
+              {% if form.terms_and_privacy.errors %}
+                  <div class="form__error">{{ form.terms_and_privacy.errors }}</div>
+              {% endif %}
+          </div>
+
+          <div class="form__group">
+            <label for="{{ form.age_confirmation.id_for_label }}">
+              {{ form.age_confirmation }}
+              {{ form.age_confirmation.label }}
+            </label>
+            {% if form.age_confirmation.errors %}
+              <div class="form__error">{{ form.age_confirmation.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="container">
+            <div class="center-button">
+              <button class="btn btn--link" type="submit">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                  <path d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 12v-2c0-4.418 3.582-8 8-8s8 3.582 8 8v2h-16zM26 30h-20v-16h20v16z"></path>
+                </svg>
+                <span>Załóż konto</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="{% static 'js/apply-user-tutoring-zone.js' %}"></script>
+<script src="{% static 'js/password-visibility.js' %}"></script>
+{% endblock content %}

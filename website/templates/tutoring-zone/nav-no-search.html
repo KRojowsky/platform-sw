@@ -1,0 +1,17 @@
+{% load static %}
+
+<header class="header header--loggedIn">
+    <div class="container">
+        <a href="{% url 'schoolweb:home' %}" class="header__logo">
+            <img src="{% static 'img/widget/logo.png' %}" alt="SchoolWeb Logo" title="Wróć do menu głównego"/>
+            <h1 title="Wróć do menu głównego">SchoolWeb</h1>
+        </a>
+
+        <nav class="header__menu">
+            <a href="{% url 'schoolweb:login' %}?next={% url 'schoolweb:coursesLoader' %}">
+                <img src="{% static 'img/profile-pictures/avatar.svg' %}" alt="Avatar"/>
+                <p>Zaloguj</p>
+            </a>
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,63 @@
+{% extends 'base-tutoring-zone.html' %}
+{% load static %}
+
+{% block navbar %}
+  {% include 'tutoring-zone/nav-teacher-view.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<main class="create-room layout">
+<div class="container">
+  <div class="layout__box">
+    <div class="layout__boxHeader">
+      <div class="layout__boxTitle">
+           <a href="javascript:window.history.back()">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                  viewBox="0 0 32 32">
+                  <title>Cofnij</title>
+                  <path d="M13.723 2.286l-13.723 13.714 13.719 13.714
+                  1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+                  </path>
+              </svg>
+          </a>
+        <h3>Podsumowanie zajęć: {{ lesson.title }}</h3>
+      </div>
+    </div>
+    <div class="layout__body">
+      <form method="POST" action="">
+        {% csrf_token %}
+
+         <div class="form-group">
+            <label for="{{ form.attended_teachers.id_for_label }}" class="larger-label">Nauczyciele którzy dołączyli:</label>
+            {% for teacher in form.attended_teachers %}
+                <br>
+                {{ teacher }} {{ teacher.label_tag }}
+            {% endfor %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.attended_students.id_for_label }}" class="larger-label">Uczniowie którzy dołączyli:</label>
+            {% for student in form.attended_students %}
+                <br>
+                {{ student }} {{ student.label_tag }}
+            {% endfor %}
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="{{ form.feedback.id_for_label }}" class="larger-label">Dodatkowe informacje na temat lekcji:</label>
+          {{ form.feedback }}
+        </div>
+
+        <div class="form__action">
+          <a class="btn btn--link" href="{{ request.META.HTTP_REFERER }}">Anuluj</a>
+          <button class="btn btn--link" type="submit">Zatwierdź</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</main>
+<style>
+
+</style>
+{% endblock content %}

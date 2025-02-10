@@ -1,0 +1,115 @@
+{% extends 'base-tutoring-zone.html' %}
+{% load static %}
+
+{% block navbar %}
+{% include 'tutoring-zone/nav-teacher-view.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<main class="layout layout--3">
+  <div class="container">
+    {% include 'tutoring-zone/courses-component-teachers.html' %}
+
+    <div class="roomList">
+      <div class="mobile-menu">
+        <form action="#" method="GET" class="header__search">
+          <label>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>Szukaj</title>
+              <path d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12
+              5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12
+              22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z" ></path>
+            </svg>
+            <input name="q" placeholder="Wyszukaj zajęć" />
+          </label>
+        </form>
+        <div class="mobile-menuItems">
+          <a class="btn btn--main btn--pill" href="{% url 'schoolweb:courses-tutoring-zone' %}">Twoje kursy</a>
+          <a class="btn btn--main btn--pill" href="{% url 'schoolweb:activity-tutoring-zone' %}">Ostatnie aktywności</a>
+        </div>
+      </div>
+      <div class="roomList__header">
+        <div>
+          <h2>Twoje lekcje</h2>
+          <p>{{post_count}} lekcji w tym kursie</p>
+        </div>
+        <a class="btn btn--main" href="{% url 'schoolweb:create-lesson' %}" title="Utwórz nową lekcję">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <title>Dodaj</title>
+            <path d="M16.943
+            0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z" >
+            </path>
+          </svg>
+          Utwórz lekcję
+        </a>
+      </div>
+      <a class="btn btn--main" href="{% url 'schoolweb:new_students' %}" title="Zdobądź ucznia">
+            Zdobądź ucznia
+      </a>
+       {% if courses.count == 0 %}
+        <div class="no-courses-info">
+          <h2 class="welcome-title">Witaj na SchoolWeb!</h2>
+          <p>Cieszymy się, że dołączyłeś/aś do naszej platformy jako nowy korepetytor. Życzymy Ci powodzenia w pracy
+          na SchoolWeb!<br><br> Jeśli napotkasz jakiekolwiek problemy lub potrzebujesz pomocy, jesteśmy dostępni,
+          aby Ci pomóc. Skontaktuj się z nami w razie potrzeby.<br><br> Poniżej znajdziesz podstawowe instrukcje,
+          które pomogą Ci lepiej korzystać z naszej platformy.</p>
+          <ul class="info-list">
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction1.png' %}" alt="Ikona 1" class="icon">
+              <span>Kliknij "Utwórz lekcję", aby rozpocząć tworzenie nowej lekcji w danym kursie.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction2.png' %}" alt="Ikona 2" class="icon">
+              <span>Przejdź do zakładki "TWOJE KURSY", gdzie znajdziesz listę kursów, których jesteś korepetytorem.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction3.png' %}" alt="Ikona 3" class="icon">
+              <span>Ostatnie aktywności związane z Twoimi kursami znajdziesz w zakładce "OSTATNIE AKTYWNOŚCI".</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction4.png' %}" alt="Ikona 4" class="icon">
+              <span>W pasku nawigacji możesz wyszukać interesującą Cię lekcję.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction5.png' %}" alt="Ikona 5" class="icon">
+              <span>Klikając logo SchoolWeb wrócisz na stronę główną.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction6.png' %}" alt="Ikona 6" class="icon">
+              <span>Klikając w swoją nazwę na pasku nawigacji przejdziesz do swojego profilu.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction7.png' %}" alt="Ikona 7" class="icon">
+              <span>Klikając "Zdobądź ucznia" przejdziesz do listy uczniów, gdzie będziesz mogł zdobyć nowego ucznia".</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction8.png' %}" alt="Ikona 8" class="icon">
+              <span>Klikając "Ustawiena" na swoim profilu będziesz w stanie edytować profil.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction9.png' %}" alt="Ikona 9" class="icon">
+              <span>Kliknij "Dane bankowe" na swoim profilu aby uzupełnić informacje odnośnie konta, na które będziesz otrzymywał wynagrodzenie.</span>
+            </li>
+            <hr>
+            <li>
+              <img src="{% static 'img/tutoring-zone/instruction10.png' %}" alt="Ikona 10" class="icon">
+              <span>Klikając "Pliki PDF z przychodami" będziesz mógł zobaczyć swoje dotychczasowe wynagrodzenia.</span>
+            </li>
+          </ul>
+          <p><i>Informacja zniknie, gdy zostaniesz dodany/a do swojego pierwszego kursu.</i></p>
+        </div>
+       {% endif %}
+      {% include 'tutoring-zone/feed-component-teachers.html' %}
+    </div>
+    {% include 'tutoring-zone/activity-component-lessons.html' %}
+  </div>
+</main>
+{% endblock %}

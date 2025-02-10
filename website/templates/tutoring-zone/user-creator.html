@@ -1,0 +1,30 @@
+{% extends 'base-tutoring-zone.html' %}
+{% load static %}
+
+{% block navbar %}
+  {% include 'tutoring-zone/nav-login-no-search.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="create-account-container">
+    <div class="create-account scroll">
+        <div class="create-account-logo">
+            <h1>TWORZENIE TWOJEGO KONTA JEST W TRAKCIE</h1>
+        </div>
+        <p>
+            <img src="{% static 'img/widget/logo.png' %}" alt="Logo SchoolWeb" class="logo-image"/>
+        </p>
+        <p>
+            Obecnie Twoje konto jest w trakcie rozpatrywania przez administrację. Nasz zespół dokładnie przegląda
+            dostarczone informacje, aby upewnić się, że są one zgodne z naszymi wymaganiami.
+        </p>
+        <p>
+            Dziękujemy za cierpliwość oraz za wybranie naszej platformy. Jeśli masz pytania, skontaktuj się z nami przez
+            formularz na stronie SchoolWeb, telefonicznie lub mailowo.
+        </p>
+        <p>
+            <b>Z pozdrowieniami,<br>Zespół SchoolWeb</b>
+        </p>
+    </div>
+</div>
+{% endblock content %}

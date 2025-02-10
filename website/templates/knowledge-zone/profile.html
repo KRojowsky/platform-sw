@@ -1,0 +1,68 @@
+{% extends 'base-knowledge-zone.html' %}
+
+{% block navbar %}
+{% include 'knowledge-zone/nav-knowledge-zone.html' %}
+{% endblock navbar %}
+
+{% block content %}
+{% load static %}
+<main class="profile-page layout layout--3">
+  <div class="container">
+    {% include 'knowledge-zone/topics-knowledge-zone.html' %}
+    <div class="roomList">
+      <div class="profile">
+        {% if messages %}
+                {% for message in messages %}
+                    <div class="notification notification--{{ message.tags }} show">
+                        <span>{{ message }}</span>
+                        <button class="notification__close">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        <div class="profile__avatar">
+          <div class="avatar avatar--large active">
+            <img src="{{user.avatar.url}}" />
+          </div>
+        </div>
+        <div class="profile__info">
+          <p>@{{user.username}}</p>
+          {% if request.user == user %}
+            <a href="{% url 'schoolweb:update-user' %}" class="btn btn--main btn--pill">Ustawienia</a>
+          {% endif %}
+        </div>
+        <div class="profile__about">
+          <h3>Punkty</h3>
+          <div class="profile__points">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill='gold' class="star-icon">
+                  <path d="M12 .587l3.668 7.568L24 9.764l-6 5.847L19.336 24 12 19.941 4.664 24 6 15.611 0 9.764l8.332-1.609L12 .587z"/>
+              </svg>
+              {{ user.points }} pkt.
+          </div>
+          {% if request.user == user %}
+          <span>Punkty możesz wymienić na bonusy dołączając do Strefy Korepetycji.</span>
+          {% endif %}
+        </div>
+
+        <div class="profile__about">
+          <h3>O mnie</h3>
+          <p>{{user.bio}}</p>
+        </div>
+
+        <div class="profile__about">
+          <h3>Zainteresowania</h3>
+          <p>{{ user.interests }}</p>
+        </div>
+      </div>
+
+      <div class="roomList__header">
+        <div>
+          <h2>Posty utworzone przez <i>{{user.username}}</i></a>
+          </h2>
+        </div>
+      </div>
+      {% include 'knowledge-zone/feed-knowledge-zone.html' %}
+    </div>
+    {% include 'knowledge-zone/activity-knowledge-zone.html' %}
+  </div>
+</main>
+{% endblock content %}

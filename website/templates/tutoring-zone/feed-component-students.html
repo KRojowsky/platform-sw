@@ -1,0 +1,84 @@
+{% for lesson in lessons %}
+{% load static %}
+<div class="roomListRoom {% if lesson.event_datetime and lesson.event_datetime <= time_threshold %}expired-lesson{% endif %}">
+    <div class="roomListRoom__header">
+      {% if lesson.host %}
+      <a href="{% url 'schoolweb:lesson-profile' lesson.host.id %}" class="roomListRoom__author">
+        <div class="avatar avatar--small active">
+          <img src="{{ lesson.host.avatar.url }}" />
+        </div>
+        <span title="Zobacz profil">{{ lesson.host.first_name }} {{ lesson.host.last_name }}</span>
+      </a>
+      {% else %}
+      <div class="roomListRoom__author">
+        <div class="avatar avatar--small">
+          <img src="path_to_default_avatar_image.png" />
+        </div>
+        <span>Użytkownik usunięty</span>
+      </div>
+      {% endif %}
+      <div style="text-align: right;">
+          {% if lesson.event_datetime %}
+            {% if lesson.event_datetime > now %}
+                <div>
+                    <a href="{% url 'schoolweb:converse' %}?room={{ lesson.invite_code }}" target="_blank" class="joinButton">
+                        <i class="fa fa-arrow-circle-right"></i> DOŁĄCZ
+                    </a>
+                </div>
+            {% elif lesson.event_datetime <= time_threshold %}
+                <div class="inactiveButton" style="display: inline-block;">
+                    <span class="lock-icon"><i class="fa fa-lock"></i></span>
+                </div>
+            {% else %}
+                <div class="inactiveButton">
+                    <span class="lock-icon"><i class="fa fa-lock"></i></span>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="inactiveButton">
+                <span class="lock-icon"><i class="fa fa-lock"></i></span>
+            </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="roomListRoom__content">
+        <div class="lesson-content">
+            <span class="label">Data:</span>
+            <span class="content">
+                {{ lesson.event_datetime|date:"Y-m-d H:i" }}
+            </span>
+        </div>
+        <div class="lesson-content">
+            <span class="label">Temat:</span>
+            <a href="{% url 'schoolweb:lesson' lesson.id %}" class="lesson-link" title="Zobacz lekcję">{{ lesson.title }}</a></span>
+        </div>
+    </div>
+
+    <div class="participants-avatars">
+        {% for student in lesson.course.students.all %}
+            <div class="avatar avatar--participant">
+                <img src="{{ student.avatar.url }}" alt="{{ student.username }}">
+            </div>
+        {% endfor %}
+        {% if lesson.course.teacher %}
+            <div class="avatar avatar--participant">
+                <img src="{{ lesson.course.teacher.avatar.url }}" alt="{{ lesson.course.teacher.username }}">
+            </div>
+        {% endif %}
+    </div>
+
+     <div class="comment-counters-container">
+        <div class="comment-counter">
+            <div class="comment-info">
+                {{ lesson.course.name }}
+            </div>
+        </div>
+        <div class="comment-counter">
+            <div class="comment-info">
+                {{ lesson.coursemessage_set.count }} odpowiedzi
+            </div>
+        </div>
+     </div>
+</div>
+{% endfor %}
